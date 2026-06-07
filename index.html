@@ -11,52 +11,169 @@
             color: #e0e0e0;
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
-            padding: 20px;
+            padding: 30px 20px;
         }
         
         h1 {
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+            letter-spacing: 3px;
+            color: #fff;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* Walkthrough Button UI */
+        .controls {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        button {
+            background-color: transparent;
+            color: #00ffcc; /* Tactical neon green accent */
+            border: 1px solid #00ffcc;
+            padding: 12px 24px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #00ffcc;
+            color: #121212;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
         }
 
         /* The responsive engine */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
-            padding-top: 20px;
         }
 
-        /* Image constraints */
-        .gallery-grid img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
+        /* Tech Card Container */
+        .tech-card {
+            position: relative;
+            overflow: hidden;
             border: 1px solid #333;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
+            border-radius: 4px;
+            background: #000;
         }
 
-        .gallery-grid img:hover {
-            transform: scale(1.02);
-            border-color: #666;
+        .tech-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        /* The Data Panel (Hidden by default) */
+        .overlay {
+            position: absolute;
+            bottom: -100%; /* Hides it below the image */
+            left: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.9);
+            border-top: 1px solid #00ffcc;
+            padding: 15px;
+            box-sizing: border-box;
+            transition: bottom 0.4s ease;
+        }
+
+        .overlay h3 {
+            margin: 0 0 5px 0;
+            color: #00ffcc;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .overlay p {
+            margin: 0;
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.4;
+        }
+
+        /* Hover & Active States */
+        .tech-card:hover img, .tech-card.active img {
+            transform: scale(1.05);
+            opacity: 0.6; /* Dims the photo so text is readable */
+        }
+
+        .tech-card:hover .overlay, .tech-card.active .overlay {
+            bottom: 0; /* Slides the panel up */
         }
     </style>
 </head>
 <body>
 
-    <h1>Project: Unicorn / DR-Z400</h1>
+    <h1>Project: Unicorn / System Diagnostics</h1>
 
-    <div class="gallery-grid">
-        <img src="dream.jpg" alt="Test Photo 1" loading="lazy">
-        <img src="ΒΕΝΖΙΝΗ.png" alt="Test Photo 2" loading="lazy">
-        <img src="heated_seat_sign.png" alt="Test Photo 3" loading="lazy">
+    <div class="controls">
+        <button onclick="startWalkthrough()">Initiate Walkthrough</button>
     </div>
 
+    <div class="gallery-grid">
+        
+        <div class="tech-card">
+            <img src="dream.jpg" alt="Cockpit View" loading="lazy">
+            <div class="overlay">
+                <h3>ARX Rally Tower</h3>
+                <p>Custom nav-tower fitted with Android Auto display. Integrated 850nm IR stealth capability and dual-bulb auxiliary lighting.</p>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <img src="ΒΕΝΖΙΝΗ.png" alt="Brake System" loading="lazy">
+            <div class="overlay">
+                <h3>HEL V2 Radial Pump</h3>
+                <p>High-pressure HEL brake lines mated to a V2 radial master cylinder for ultimate, zero-fade stopping power under heavy loads.</p>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <img src="showa_shock.png" alt="Fuel Tank" loading="lazy">
+            <div class="overlay">
+                <h3>Acerbis Long Range</h3>
+                <p>Oversized Acerbis fuel silo wrapped in Polisport restyle plastics. Protected by heavy-duty crash bars and custom frame guards.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // The Walkthrough Engine
+        function startWalkthrough() {
+            const cards = document.querySelectorAll('.tech-card');
+            let delay = 0;
+
+            cards.forEach((card) => {
+                setTimeout(() => {
+                    // Smoothly scroll the card into the center of the screen
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Trigger the hover effect artificially
+                    card.classList.add('active');
+                    
+                    // Turn off the effect after 3 seconds
+                    setTimeout(() => {
+                        card.classList.remove('active');
+                    }, 3000);
+                    
+                }, delay);
+                
+                // Wait 3.5 seconds before moving to the next component
+                delay += 3500; 
+            });
+        }
+    </script>
 </body>
 </html>
